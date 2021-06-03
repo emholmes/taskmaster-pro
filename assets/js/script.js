@@ -71,10 +71,16 @@ $(".list-group").on("click", "span", function() {
   var date = $(this).text().trim();
   var dateInput = $("<input>").attr("type", "text").addClass("form-control").val(date);
   $(this).replaceWith(dateInput);
+  dateInput.datepicker({
+    minDate: 1, 
+    onClose: function() {
+      $(this).trigger("change");
+    }
+  });
   dateInput.trigger("focus");
 });
 
-$(".list-group").on("blur", "input[type='text']", function() {
+$(".list-group").on("change", "input[type='text']", function() {
   var date = $(this).val().trim();
   var status = $(this).closest(".list-group").attr("id").replace("list-", "");
   var index = $(this).closest(".list-group-item").index();
@@ -84,7 +90,9 @@ $(".list-group").on("blur", "input[type='text']", function() {
   $(this).replaceWith(taskSpan);
 });
 
-
+$("#modalDueDate").datepicker({
+  minDate: 1
+});
 
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
